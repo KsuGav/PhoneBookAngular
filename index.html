@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type='text/css' href="src/css/style.css"/>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="src/libs/angular.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+</head>
+<body ng-app="appPhoneBook" ng-controller="bookCtrl as book">
+<div class="row topDiv">
+    <input type="text" ng-model="search"/>
+    <button class="btn" id="add" ng-click="book.showNew()">Add</button>
+</div>
+<div class="row headTab" >
+    <div class="col-md-1 headDiv numero">№</div>
+    <div class="col-md-3 headDiv" ng-click="orderProperty=book.setOrderProperty('firstName')">Firstname</div>
+    <div class="col-md-3 headDiv" ng-click="orderProperty=book.setOrderProperty('lastName')">Lastname</div>
+    <div class="col-md-2 headDiv" ng-click="orderProperty=book.setOrderProperty('number')">Number</div>
+    <div class="col-md-3 headDiv">Correct</div>
+</div>
+<div class="row strok" ng-repeat="item in book.names | orderBy : orderProperty| filter:search " ng-class-even="book.class1" ng-class-odd="book.class2">
+    <div class="col-md-1 numero">{{ $index + 1 | number:0 | uppercase }}</div>
+    <div class="col-md-3">{{item.firstName}}</div>
+    <div class="col-md-3">{{item.lastName}}</div>
+    <div class="col-md-2">{{item.number}}</div>
+    <div class="col-md-3">
+        <button class="btn edit" ng-click="book.editDiv(item)">&#9998;</button>
+        <button class="btn del" ng-click="book.delDiv(item)">&#215;</button>
+    </div>
+</div>
+
+<div class="background" ></div>
+<div class="editDiv">
+    <input type="text" placeholder="Firstname" ng-model="book.editFName"/>
+    <input type="text" placeholder="Lastname" ng-model="book.editLName"/>
+    <input type="text" placeholder="Number" id="numberEdit" ng-model="book.editNumber"/>
+    <div>
+        <button class='btn save' ng-click="book.saveEdit()">Save</button>
+    </div>
+</div>
+<div class="newDiv">
+    <input type="text" placeholder="Firstname" ng-model="book.newFName"/>
+    <input type="text" placeholder="Lastname" ng-model="book.newLName"/>
+    <input type="text" placeholder="Number" id="numberNew" ng-model="book.newNumber"/>
+    <div>
+        <button class='btn save' ng-click="book.saveNew()">Save</button>
+    </div>
+
+</div>
+</body>
+</html>
